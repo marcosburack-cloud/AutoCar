@@ -1,0 +1,19 @@
+<?php
+
+$host = "localhost";
+$usuario = "root";
+$senha = "";
+$banco = "autocar";
+
+$conn = mysqli_connect(
+    $host,
+    $usuario,
+    $senha,
+    $banco
+);
+
+if(!$conn){
+    die("Erro na conexão: " . mysqli_connect_error());
+}
+
+?>
