@@ -16,13 +16,6 @@ $aberto = ($horaAtual >= 7 && $horaAtual<19);
 
 </div>
 <div class="container mt-5">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total de Agendamentos</h5>
-                     <h2 id="totalAgendamentos">06</h2>
-            </div>
-        </div>
-<div class="container mt-5">
 
     <div class="card">
 
