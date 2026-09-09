@@ -78,7 +78,4 @@ while($servico = mysqli_fetch_assoc($resultado)){
         </div>
     </div>
 </div>
-
-<script src="js/dashboard.js"></script>
-
 <?php include 'footer.php'; ?>

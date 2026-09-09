@@ -26,6 +26,88 @@ include("header.php");
 
     </div>
 
+    <!-- Indicadores do Dashboard -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5>Agendamentos</h5>
+                    <h2 class="fw-bold text-danger" id="totalAgendamentos">
+                        0
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 >Serviços</h5>
+                    <h2 class="fw-bold text-danger" id="totalServicos">
+                        0
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5>Produtos</h5>
+                    <h2 class="fw-bold text-danger" id="totalProdutos">
+                        0
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5>Faturamento</h5>
+                    <h2 class="fw-bold text-danger" id="faturamento">
+                        R$ 0,00
+                    </h2>
+                </div>
+            </div>
+        </div>
+<div class="col-md-3 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h5 class="card-title">Agendamentos futuros</h5>
+            <h2 class="fw-bold text-danger" id="agendamentosFuturos">0</h2>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-9 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h5 class="card-title">Serviços agendados</h5>
+            <p class="fw-bold text-danger" id="listaServicos" class="mb-0">
+                Nenhum serviço
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 mb-4">
+    <div class="card shadow-sm mb-5">
+        <div class="card-body text-center">
+
+            <h5>
+                Serviço mais agendado
+            </h5>
+
+            <h3 class="fw-bold text-danger" id="servicoMaisAgendado">
+                Nenhum
+            </h3>
+
+        </div>
+    </div>
+</div>
+    <h2 class="mb-4">Gerenciamento</h2>
+
     <div class="row g-4">
 
         <!-- Serviços -->
@@ -106,5 +188,9 @@ include("header.php");
     </div>
 
 </div>
+<script>
+    console.log("ADMIN: carregando dashboard");
+</script>
 
+<script src="/automotivoscar/js/dashboard.js"></script>
 <?php include("footer.php"); ?>
