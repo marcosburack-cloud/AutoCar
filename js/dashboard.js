@@ -21,12 +21,33 @@ function renderizarDashboard(dados) {
         return total + preco;
     }, 0);
     const agendamentosFuturos = dados.dadosAgendamentos.filter((agendamento) => {
+        if (!agendamento.data_agendamento) {
+            return false;
+        }
         return agendamento.data_agendamento >=
             new Date().toISOString().split("T")[0];
     });
     const listaServicos = dados.dadosAgendamentos.map((agendamento) => {
         return agendamento.nome_servico;
+    })
+        .filter((nomeServico) => nomeServico.trim() !== "");
+    const frequenciaServicos = {};
+    dados.dadosAgendamentos.forEach((agendamento) => {
+        const nomeServico = agendamento.nome_servico;
+        if (nomeServico === "") {
+            return;
+        }
+        if (!frequenciaServicos[nomeServico]) {
+            frequenciaServicos[nomeServico] = 0;
+        }
+        frequenciaServicos[nomeServico]++;
     });
+    let servicoMaisAgendado = "Nenhum";
+    const servicosOrdenados = Object.keys(frequenciaServicos).sort((a, b) => frequenciaServicos[b] - frequenciaServicos[a]);
+    if (servicosOrdenados.length > 0) {
+        servicoMaisAgendado = servicosOrdenados[0];
+    }
+    atualizarElemento("servicoMaisAgendado", servicoMaisAgendado);
     atualizarElemento("agendamentosFuturos", String(agendamentosFuturos.length));
     atualizarElemento("listaServicos", listaServicos.length > 0
         ? listaServicos.join(", ")

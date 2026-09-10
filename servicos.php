@@ -65,11 +65,21 @@ $resultado = $conn->query($sql);
 ?>
 
 <?php include("header.php"); ?>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-<div class="container py-5">
+    <div>
+        <h1 class="mb-2">Gerenciar Serviços</h1>
 
-    <h1 class="mb-4">Gerenciar Serviços</h1>
+        <p class="text-muted mb-0">
+            Área exclusiva para administradores.
+        </p>
+    </div>
 
+    <a href="admin.php" class="btn btn-secondary">
+        Voltar ao painel
+    </a>
+
+</div>
     <?php if ($mensagem !== ""): ?>
         <div class="alert alert-info">
             <?= htmlspecialchars($mensagem) ?>

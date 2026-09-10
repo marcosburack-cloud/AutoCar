@@ -64,21 +64,63 @@ function renderizarDashboard(
     const agendamentosFuturos: Agendamento[] =
     dados.dadosAgendamentos.filter(
         (agendamento: Agendamento): boolean => {
+
+            if (!agendamento.data_agendamento) {
+                return false;
+            }
+
             return agendamento.data_agendamento >=
                 new Date().toISOString().split("T")[0];
         }
     );
-    const listaServicos: string[] =
+   const listaServicos: string[] =
     dados.dadosAgendamentos.map(
-        (agendamento: Agendamento): string => {
-            return agendamento.nome_servico;
+            (agendamento: Agendamento): string => {
+                return agendamento.nome_servico;
+            }
+        )
+        .filter(
+            (nomeServico: string): boolean =>
+                nomeServico.trim() !== ""
+        );
+    const frequenciaServicos: Record<string, number> = {};
+
+dados.dadosAgendamentos.forEach(
+    (agendamento: Agendamento): void => {
+        const nomeServico: string = agendamento.nome_servico;
+
+        if (nomeServico === "") {
+            return;
         }
-    );
+
+        if (!frequenciaServicos[nomeServico]) {
+            frequenciaServicos[nomeServico] = 0;
+        }
+
+        frequenciaServicos[nomeServico]++;
+    }
+);
+
+let servicoMaisAgendado: string = "Nenhum";
+
+const servicosOrdenados: string[] = Object.keys(
+    frequenciaServicos
+).sort(
+    (a: string, b: string): number =>
+        frequenciaServicos[b] - frequenciaServicos[a]
+);
+
+if (servicosOrdenados.length > 0) {
+    servicoMaisAgendado = servicosOrdenados[0];
+}
+atualizarElemento(
+    "servicoMaisAgendado",
+    servicoMaisAgendado
+);
 atualizarElemento(
     "agendamentosFuturos",
     String(agendamentosFuturos.length)
 );
-
 atualizarElemento(
     "listaServicos",
     listaServicos.length > 0
@@ -116,7 +158,6 @@ atualizarElemento(
         dados.servicoMaisAgendado
     );
 }
-
 async function carregarDashboard(): Promise<void> {
 
     try {

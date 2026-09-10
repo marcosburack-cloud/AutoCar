@@ -149,7 +149,7 @@ include("header.php");
                         agendamentos dos clientes.
                     </p>
 
-                    <a href="agendar.php"
+                    <a href="gerenciar_agendamentos.php"
                        class="btn btn-danger">
                         Gerenciar Agendamentos
                     </a>
@@ -174,7 +174,7 @@ include("header.php");
                         disponíveis.
                     </p>
 
-                    <a href="produtos.php"
+                    <a href="gerenciar_produtos.php"
                        class="btn btn-danger">
                         Gerenciar Produtos
                     </a>
