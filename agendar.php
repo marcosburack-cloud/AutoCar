@@ -1,8 +1,6 @@
 <?php
-
 include 'conexao.php';
 include 'header.php';
-
 $mensagem = "";
 if (
     $_SERVER["REQUEST_METHOD"] === "POST"
@@ -43,19 +41,29 @@ if (
         $id
     );
 
-    if ($stmt->execute()) {
+    try {
 
-        header("Location: agendar.php?sucesso=edicao");
-        exit;
+        if ($stmt->execute()) {
 
-    } else {
+            header("Location: agendar.php?sucesso=edicao");
+            exit;
 
-        $mensagem = "Erro ao editar agendamento.";
+        }
+
+    } catch (mysqli_sql_exception $e) {
+
+        if (strpos($e->getMessage(), "Não é permitido agendar") !== false) {
+
+            $mensagem = "Não é possível realizar um agendamento para uma data anterior à atual.";
+
+        } else {
+
+            $mensagem = "Erro ao editar agendamento.";
+        }
     }
 
     $stmt->close();
 }
-// CADASTRAR AGENDAMENTO
 if (isset($_POST['agendar'])) {
 
     $nome = trim($_POST['nome']);
@@ -83,37 +91,44 @@ if (isset($_POST['agendar'])) {
         $hora
     );
 
-    if ($stmt->execute()) {
+    try {
 
-        header("Location: agendar.php?sucesso=cadastro");
-        exit;
+        if ($stmt->execute()) {
 
-    } else {
+            header("Location: agendar.php?sucesso=cadastro");
+            exit;
 
-        $mensagem = "Erro ao realizar o agendamento.";
+        }
+
+    } catch (mysqli_sql_exception $e) {
+
+        if (strpos($e->getMessage(), "Não é permitido agendar") !== false) {
+
+            $mensagem = "Não é possível realizar um agendamento para uma data anterior à atual.";
+
+        } else {
+
+            $mensagem = "Erro ao realizar o agendamento.";
+        }
     }
 
     $stmt->close();
 }
-
-
 if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'cadastro') {
 
     $mensagem = "Agendamento realizado com sucesso!";
 }
-
 ?>
-
 <div class="container mt-5">
 
     <?php if ($mensagem !== ""): ?>
 
-        <div class="alert alert-success text-center">
+        <div class="alert alert-warning text-center">
+            <strong>⚠️ Atenção!</strong><br>
             <?= htmlspecialchars($mensagem) ?>
         </div>
 
     <?php endif; ?>
-
 
     <div class="card">
 
@@ -124,136 +139,65 @@ if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'cadastro') {
             <form method="POST">
 
                 <div class="mb-3">
-
                     <label>Nome</label>
-
-                    <input
-                        type="text"
-                        name="nome"
-                        class="form-control"
-                        required
-                    >
-
+                    <input type="text" name="nome" class="form-control" required>
                 </div>
 
-
                 <div class="mb-3">
-
                     <label>Telefone</label>
-
-                    <input
-                        type="text"
-                        name="telefone"
-                        class="form-control"
-                        required
-                    >
-
+                    <input type="text" name="telefone" class="form-control" required>
                 </div>
 
-
                 <div class="mb-3">
-
                     <label>Modelo do Carro</label>
-
-                    <input
-                        type="text"
-                        name="carro"
-                        class="form-control"
-                        required
-                    >
-
+                    <input type="text" name="carro" class="form-control" required>
                 </div>
 
-
                 <div class="mb-3">
-
                     <label>Placa</label>
-
-                    <input
-                        type="text"
-                        name="placa"
-                        class="form-control"
-                        required
-                    >
-
+                    <input type="text" name="placa" class="form-control" required>
                 </div>
 
-
                 <div class="mb-3">
-
                     <label>Serviço</label>
-
-                    <select
-                        name="servico"
-                        class="form-control"
-                        required
-                    >
-
+                    <select name="servico" class="form-control" required>
                         <option value="">
                             Selecione um serviço
                         </option>
-
                         <?php
-
                         $sqlServicos = "SELECT id, nome FROM servicos ORDER BY nome";
                         $resultado = mysqli_query($conn, $sqlServicos);
-
                         while ($s = mysqli_fetch_assoc($resultado)):
-
                         ?>
-
                             <option value="<?= $s['id'] ?>">
                                 <?= htmlspecialchars($s['nome']) ?>
                             </option>
-
                         <?php endwhile; ?>
-
                     </select>
-
                 </div>
-
-
                 <div class="mb-3">
-
                     <label>Data</label>
-
                     <input
                         type="date"
                         name="data"
                         class="form-control"
+                        min="<?= date('Y-m-d') ?>"
                         required
                     >
-
                 </div>
-
 
                 <div class="mb-3">
-
                     <label>Hora</label>
-
-                    <input
-                        type="time"
-                        name="hora"
-                        class="form-control"
-                        required
-                    >
-
+                    <input type="time" name="hora" class="form-control" required>
                 </div>
 
-
-                <button
-                    type="submit"
-                    name="agendar"
-                    class="btn btn-danger"
-                >
+                <button type="submit" name="agendar" class="btn btn-danger">
                     Agendar
                 </button>
 
             </form>
-
         </div>
-
     </div>
-
 </div>
 <?php include 'footer.php'; ?>
+
